@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const bot = new Client();
+const bot: Client = new Client();
 
 bot.on('ready', (): void => {
   console.log(`${bot.user.username} is online!`);
