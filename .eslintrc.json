@@ -13,6 +13,8 @@
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true, "endOfLine": "auto", "printWidth": 2000 }],
     "no-unused-vars": "warn",
-    "no-console": "off"
+    "no-console": "off",
+    "global-require": "off",
+    "import/no-dynamic-require": "off"
   }
 }

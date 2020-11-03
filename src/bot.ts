@@ -1,13 +1,17 @@
-import { Client } from 'discord.js';
+import { Client, Collection } from 'discord.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const bot: Client = new Client();
+const bot: any = new Client();
 
-bot.on('ready', (): void => {
-  console.log(`${bot.user.username} is online!`);
+bot.commands = new Collection();
+bot.aliases = new Collection();
+
+['commands', 'aliases'].forEach((collection) => {
+  bot[collection] = new Collection();
 });
+['loadCommands', 'loadEvents'].forEach((handlerFile) => require(`./handlers/${handlerFile}.js`)(bot));
 
 const token = process.env.TEST === 'true' ? process.env.DISCORD_TESTTOKEN : process.env.DISCORD_TOKEN;
 bot.login(token);
