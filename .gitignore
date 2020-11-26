@@ -10,3 +10,4 @@ node_modules/
 
 # generate output
 dist
+.prettierignore

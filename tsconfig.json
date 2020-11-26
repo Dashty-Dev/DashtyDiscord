@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es2020",
+    "rootDir": "src",
     "outDir": "dist",
     "watch": true,
     "lib": ["ESNext", "ESNext.Array", "ESNext.AsyncIterable", "ESNext.Intl", "ESNext.symbol", "DOM"],
@@ -13,8 +14,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*", "dist/handlers/loadCommands.js"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
