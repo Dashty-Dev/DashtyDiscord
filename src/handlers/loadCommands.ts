@@ -9,5 +9,5 @@ export = (bot) => {
       if (command.config.aliases) command.config.aliases.forEach((alias: any) => bot.aliases.set(alias, command.config.name));
     });
   };
-  ['misc', 'moderation'].forEach((folder) => load(folder));
+  ['misc', 'moderation', 'information'].forEach((folder) => load(folder));
 };
