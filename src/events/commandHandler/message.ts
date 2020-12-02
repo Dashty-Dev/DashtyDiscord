@@ -46,7 +46,7 @@ export = async (bot, message) => {
 	let NeededPermissions: string = '';
 	let NeededBotPermissions: string = '';
 
-	// Using prefix set by user, if it doesn't exist use default.
+	// --- Using Prefix Set By User If It Exists ---
 	let prefix: string;
 
 	const config = await serverSettings.findOne({
@@ -75,7 +75,7 @@ export = async (bot, message) => {
 
 	const { DevOnly, UserPermissions, BotPermissions } = commandfile.config;
 
-	// Developer only config option
+	// --- DevOnly Configuration ---
 	if (DevOnly === undefined && readdirSync('src/commands/owner').indexOf(`${commandfile.config.name}.ts`) > -1) {
 		return console.error(`[ERROR]: DevOnly config option not found in command ${commandfile.config.name}.\nAdd the following to your config options... DevOnly: true/false`);
 	}
@@ -84,7 +84,7 @@ export = async (bot, message) => {
 		return message.channel.send('Developer only command.');
 	}
 
-	// UserPermissions config
+	// --- UserPermissions Configuration ---
 	function LoopThroughPermissions() {
 		UserPermissions.forEach((permission: any) => {
 			const MatchingPerms = permissions.find((SetUserPerm) => SetUserPerm === permission);
@@ -109,7 +109,7 @@ export = async (bot, message) => {
 		return message.channel.send(`You need the following permissions to run this command...\n${NeededPermissions}`);
 	}
 
-	// Bot Permissions config
+	// --- BotPermissions Configuration ---
 	if (BotPermissions === undefined) {
 		return console.error(`[ERROR]: BotPermissions config not found in command ${commandfile.config.name}.\nAdd the following to your config options... \nBotPermissions: ${permissions}`);
 	}
@@ -130,7 +130,7 @@ export = async (bot, message) => {
 		return message.channel.send(`Dashty needs the following permissions to carry out this command...\n${NeededBotPermissions}`);
 	}
 
-	// Running command and sending message if an error occurs.
+	// --- Run Command + Send Message If Error Occurs ---
 	try {
 		await commandfile.run(bot, message, args);
 	} catch (errorMessage) {
