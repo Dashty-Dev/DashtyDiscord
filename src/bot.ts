@@ -4,14 +4,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const bot: any = new Client({
-  disableMentions: 'everyone',
+	disableMentions: 'everyone',
 });
 
 bot.commands = new Collection();
 bot.aliases = new Collection();
 
 ['commands', 'aliases'].forEach((collection) => {
-  bot[collection] = new Collection();
+	bot[collection] = new Collection();
 });
 ['loadCommands', 'loadEvents'].forEach((handlerFile) => require(`./handlers/${handlerFile}.js`)(bot));
 
