@@ -9,15 +9,11 @@ export = {
     usage: '.prefix <prefix>',
     accessableby: 'MANAGE_MESSAGES',
     aliases: ['changeprefix', 'newprefix'],
-	ServerOnly: true,
-	BotPermissions: ['SEND_MESSAGES']
+	UserPermissions: ['MANAGE_GUILD'],
+	BotPermissions: ['EMBED_LINKS']
   },
   run: async (bot, message, args) => {
     const userPrefix = args.join(' ');
-
-    if (!message.member.hasPermission('MANAGE_GUILD')) {
-      return message.channel.send('No permission to run this.');
-    }
 
     if (userPrefix.length < 1) {
 	return message.channel.send(new MessageEmbed()
