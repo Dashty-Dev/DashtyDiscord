@@ -47,7 +47,7 @@ export = async (bot, message) => {
 	let NeededBotPermissions: string = '';
 
 	// --- Using Prefix Set By User If It Exists ---
-	let prefix: string;
+	let prefix: String;
 
 	const config = await serverSettings.findOne({
 		guildID: message.guild.id,
