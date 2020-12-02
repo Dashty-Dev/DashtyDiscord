@@ -3,7 +3,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const bot: any = new Client();
+const bot: any = new Client({
+  disableMentions: 'everyone',
+});
 
 bot.commands = new Collection();
 bot.aliases = new Collection();
