@@ -47,7 +47,6 @@ export = async (bot, message) => {
 
   // Using prefix set by user, if it doesn't exist use default.
   let prefix: string;
-//   let mentionPrefix = 
 
   const config = await serverSettings.findOne({
 	guildID: message.guild.id,
@@ -57,6 +56,10 @@ export = async (bot, message) => {
 	prefix = process.env.PREFIX;
   } else {
 	prefix = config.prefix;
+  }
+
+  if (message.content.startsWith('<@') && message.mentions.has(bot.user)) {
+	return message.channel.send(`Use ${prefix}help for a list of commands.`)
   }
 
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
