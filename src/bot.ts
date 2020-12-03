@@ -1,7 +1,7 @@
 import { Client, Collection } from 'discord.js';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 
-dotenv.config();
+config();
 
 const bot: any = new Client({
 	disableMentions: 'everyone',

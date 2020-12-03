@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { ServerSettingsTypes } from '../types/serverSettings';
 
-const settingsSchema = new mongoose.Schema({
+const settingsSchema = new Schema({
 	guildName: { type: String },
 	guildID: { type: String },
 	prefix: { type: String },
 });
 
-export = mongoose.model<ServerSettingsTypes>('serverSettings', settingsSchema);
+export = model<ServerSettingsTypes>('serverSettings', settingsSchema);

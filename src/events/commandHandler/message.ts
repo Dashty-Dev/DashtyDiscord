@@ -1,10 +1,7 @@
 import { MessageEmbed } from 'discord.js';
-import dotenv from 'dotenv';
 import { readdirSync } from 'fs';
 import colours from '../../json/colours.json';
 import serverSettings from '../../models/serverSettings';
-
-dotenv.config();
 
 export = async (bot, message) => {
 	if (message.author.bot) return;

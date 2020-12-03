@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { Document } from 'mongoose';
 
-export interface ServerSettingsTypes extends mongoose.Document {
+export interface ServerSettingsTypes extends Document {
 	guildName: String;
 	guildID: String;
 	prefix: String;
