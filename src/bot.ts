@@ -4,6 +4,7 @@ import { config } from 'dotenv';
 config();
 
 const bot: any = new Client({
+	ws: { intents: ['GUILD_MESSAGES', 'GUILDS', 'GUILD_MESSAGE_REACTIONS'] },
 	disableMentions: 'everyone',
 });
 
