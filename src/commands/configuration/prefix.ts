@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { Client, Message, MessageEmbed } from 'discord.js';
 import serverSettings from '../../models/serverSettings';
 import colours from '../../json/colours.json';
 
@@ -12,7 +12,7 @@ export = {
 	UserPermissions: ['MANAGE_GUILD'],
 	BotPermissions: ['EMBED_LINKS']
   },
-  run: async (bot, message, args) => {
+  run: async (_bot: Client, message: Message, args: string[]) => {
     const userPrefix = args.join(' ');
 
     if (userPrefix.length < 1) {
@@ -33,10 +33,11 @@ export = {
 		.setImage('https://s8.gifyu.com/images/Prefix.gif')
 		.setFooter('Too many characters')
 		.setTimestamp());
-    }
+	}
+	
 
     const config = await serverSettings.findOne({
-      guildID: message.guild.id,
+      guildID: message.guild!.id,
     });
 
     if (!config) {
@@ -51,10 +52,10 @@ export = {
       }
 
       const newSettings = await serverSettings.create({
-        guildName: message.guild.name,
-        guildID: message.guild.id,
+        guildName: `${message.guild!.name}`,
+        guildID: `${message.guild!.id}`,
         prefix: userPrefix,
-      });
+	});
 
       await newSettings.save();
 		return message.channel.send(new MessageEmbed()

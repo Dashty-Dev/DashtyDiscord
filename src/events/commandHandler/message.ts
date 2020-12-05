@@ -1,9 +1,9 @@
-import { MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { readdirSync } from 'fs';
 import colours from '../../json/colours.json';
 import serverSettings from '../../models/serverSettings';
 
-export = async (bot, message) => {
+export = async (bot: any, message: Message) => {
 	if (message.author.bot) return;
 	if (message.channel.type === 'dm') return;
 
@@ -47,23 +47,23 @@ export = async (bot, message) => {
 	let prefix: String;
 
 	const config = await serverSettings.findOne({
-		guildID: message.guild.id,
+		guildID: message.guild!.id,
 	});
 
 	if (!config) {
-		prefix = process.env.PREFIX;
+		prefix = `${process.env.PREFIX}`;
 	} else {
 		prefix = config.prefix;
 	}
 
-	if (message.content.startsWith('<@') && message.mentions.has(bot.user)) {
+	if (message.content.startsWith('<@') && message.mentions.has(bot.user!)) {
 		return message.channel.send(`Use ${prefix}help for a list of commands.`);
 	}
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/g);
-	const cmd = args.shift().toLowerCase();
+	const cmd = args.shift()!.toLowerCase();
 
-	if (!message.content.startsWith(prefix)) return;
+	if (!message.content.startsWith(`${prefix}`)) return;
 	const commandfile = bot.commands.get(cmd) || bot.commands.get(bot.aliases.get(cmd));
 
 	if (!commandfile) {
@@ -83,14 +83,14 @@ export = async (bot, message) => {
 
 	// --- UserPermissions Configuration ---
 	function LoopThroughPermissions() {
-		UserPermissions.forEach((permission: any) => {
-			const MatchingPerms = permissions.find((SetUserPerm) => SetUserPerm === permission);
+		UserPermissions.forEach((permission: string) => {
+			const MatchingPerms: any = permissions.find((SetUserPerm) => SetUserPerm === permission);
 
 			if (!MatchingPerms) {
 				console.error(`[ERROR]: "${permission}" user permission does not exist in file ${commandfile.config.name}.`);
 			}
 
-			if (!message.member.hasPermission(MatchingPerms)) {
+			if (!message.member!.hasPermission(MatchingPerms)) {
 				NeededPermissions += `• \`${MatchingPerms}\`\n`;
 			}
 		});
@@ -111,14 +111,14 @@ export = async (bot, message) => {
 		return console.error(`[ERROR]: BotPermissions config not found in command ${commandfile.config.name}.\nAdd the following to your config options... \nBotPermissions: ${permissions}`);
 	}
 
-	BotPermissions.forEach((permission: any) => {
-		const MatchingPerms = permissions.find((SetUserPerm) => SetUserPerm === permission);
+	BotPermissions.forEach((permission: string) => {
+		const MatchingPerms: any = permissions.find((SetUserPerm) => SetUserPerm === permission);
 
 		if (!MatchingPerms) {
 			console.error(`[ERROR]: "${permission}" bot permission does not exist in file ${commandfile.config.name}.`);
 		}
 
-		if (!message.guild.me.hasPermission(MatchingPerms)) {
+		if (!message.guild!.me!.hasPermission(MatchingPerms)) {
 			NeededBotPermissions += `• \`${MatchingPerms}\`\n`;
 		}
 	});

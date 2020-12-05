@@ -1,6 +1,6 @@
 import { readdirSync } from 'fs';
 
-export = (bot) => {
+export = (bot: any) => {
 	const load = (directories: string) => {
 		const events = readdirSync(`${__dirname}../../events/${directories}/`).filter((directoryFile) => directoryFile.endsWith('.js'));
 		events.forEach((eventFile) => {

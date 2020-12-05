@@ -8,6 +8,6 @@ export = async () => {
 		keepAlive: true,
 	};
 
-	await mongoose.connect(process.env.MONGOPASSWORD, databaseOptions);
+	await mongoose.connect(`${process.env.MONGOPASSWORD}`, databaseOptions);
 	return mongoose;
 };
