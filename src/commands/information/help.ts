@@ -1,3 +1,5 @@
+import { Client, Message } from 'discord.js';
+
 export = {
   config: {
     name: 'help',
@@ -7,7 +9,7 @@ export = {
     aliases: ['dashty', 'commands', 'cmds'],
     ServerOnly: false,
   },
-  run: async (bot, message, args) => {
+  run: async (bot: Client, message: Message, args: string[]) => {
     message.channel.send('you are a noob now be quiet');
   },
 };

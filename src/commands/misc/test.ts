@@ -1,3 +1,5 @@
+import { Client, Message } from 'discord.js';
+
 export = {
   config: {
     name: 'test',
@@ -7,7 +9,7 @@ export = {
     aliases: ['bal', 'b', 'money', 'coins', 'cash'],
     ServerOnly: false,
   },
-  run: async (bot, message, args) => {
+  run: async (bot: Client, message: Message, args: string[]) => {
     message.channel.send('you are a noob now be quiet');
   },
 };
