@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
 export = async () => {
-	const databaseOptions = {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		useFindAndModify: true,
-		keepAlive: true,
-	};
+  const databaseOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: true,
+    keepAlive: true,
+  };
 
-	await mongoose.connect(`${process.env.MONGOPASSWORD}`, databaseOptions);
-	return mongoose;
+  await mongoose.connect(`${process.env.MONGO_PASSWORD}`, databaseOptions);
+  return mongoose;
 };
