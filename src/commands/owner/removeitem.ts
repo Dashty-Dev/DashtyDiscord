@@ -14,7 +14,7 @@ export = {
   },
   run: async (bot: Client, message: Message) => {
     try {
-      const cancel = new MessageEmbed()
+      const cancel: MessageEmbed = new MessageEmbed()
         .setTitle('Deletion Cancelled!') //
         .setDescription(`Deletion of item has been cancelled successfully!`)
         .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL())

@@ -2,6 +2,7 @@ import { Message, MessageEmbed } from 'discord.js';
 import { readdirSync } from 'fs';
 import colours from '../../json/colours.json';
 import serverSettings from '../../models/serverSettings';
+import botConfig from '../../json/botConfig.json';
 
 export = async (bot: any, message: Message) => {
   if (message.author.bot) return;
@@ -51,7 +52,7 @@ export = async (bot: any, message: Message) => {
   });
 
   if (!config) {
-    prefix = `${process.env.PREFIX}`;
+    prefix = botConfig.prefix;
   } else {
     prefix = config.prefix;
   }
@@ -60,8 +61,8 @@ export = async (bot: any, message: Message) => {
     return message.channel.send(`Use ${prefix}help for a list of commands.`);
   }
 
-  const args = message.content.slice(prefix.length).trim().split(/ +/g);
-  const cmd = args.shift()!.toLowerCase();
+  const args: string[] = message.content.slice(prefix.length).trim().split(/ +/g);
+  const cmd: string = args.shift()!.toLowerCase();
 
   if (!message.content.startsWith(`${prefix}`)) return;
   const commandfile = bot.commands.get(cmd) || bot.commands.get(bot.aliases.get(cmd));

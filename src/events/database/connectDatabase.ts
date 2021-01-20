@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export = async () => {
+export = async (): Promise<Object> => {
   const databaseOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
