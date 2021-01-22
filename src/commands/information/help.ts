@@ -8,8 +8,10 @@ export = {
     accessableby: 'Public',
     aliases: ['dashty', 'commands', 'cmds'],
     ServerOnly: false,
+    BotPermissions: ['SEND_MESSAGES'],
+    Cooldown: 10,
   },
-  run: async (bot: Client, message: Message, args: string[]) => {
+  run: async (bot: Client, message: Message) => {
     message.channel.send('you are a noob now be quiet');
   },
 };

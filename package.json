@@ -28,9 +28,11 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
+    "humanize-duration": "^3.25.1",
     "mongoose": "^5.11.12"
   },
   "devDependencies": {
+    "@types/humanize-duration": "^3.18.1",
     "@types/node": "^14.14.21",
     "@types/ws": "^7.4.0",
     "@typescript-eslint/eslint-plugin": "^4.14.0",

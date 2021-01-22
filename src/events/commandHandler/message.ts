@@ -1,8 +1,11 @@
 import { Message, MessageEmbed } from 'discord.js';
 import { readdirSync } from 'fs';
+import duration from 'humanize-duration';
 import colours from '../../json/colours.json';
 import serverSettings from '../../models/serverSettings';
 import botConfig from '../../json/botConfig.json';
+
+const onCooldown = new Set();
 
 export = async (bot: any, message: Message) => {
   if (message.author.bot) return;
@@ -71,11 +74,31 @@ export = async (bot: any, message: Message) => {
     return message.channel.send(`Command does not exist, use ${prefix}help for a full list of commands.`);
   }
 
-  const { DevOnly, UserPermissions, BotPermissions } = commandfile.config;
+  const { DevOnly, UserPermissions, BotPermissions, name } = commandfile.config;
+
+  // --- Cooldown Configuration ---
+  let { Cooldown } = commandfile.config;
+
+  if (Number.isNaN(Number(Cooldown))) {
+    return console.error(`[ERROR]: Cooldown config option provided is not a number in file ${name}.\nCooldown option content: "${Cooldown}"`);
+  }
+  if (!Cooldown) Cooldown = 5;
+
+  const time = Cooldown * 1000 + Date.now();
+
+  if (Cooldown) {
+    if (onCooldown.has(`${message.author.id}-${name}`)) {
+      return message.reply(`You must wait ${duration(Date.now() - time, { units: ['h', 'm', 's'], round: true })} before re-using the **${name}** command.`);
+    }
+    onCooldown.add(`${message.author.id}-${name}`);
+    setTimeout(() => {
+      onCooldown.delete(`${message.author.id}-${name}`);
+    }, Cooldown * 1000);
+  }
 
   // --- DevOnly Configuration ---
-  if (DevOnly === undefined && readdirSync('src/commands/owner').indexOf(`${commandfile.config.name}.ts`) > -1) {
-    return console.error(`[ERROR]: DevOnly config option not found in command ${commandfile.config.name}.\nAdd the following to your config options... DevOnly: true/false`);
+  if (DevOnly === undefined && readdirSync('dist/commands/owner').indexOf(`${name}.js`) > -1) {
+    return console.error(`[ERROR]: DevOnly config option not found in command ${name}.\nAdd the following to your config options... DevOnly: true/false`);
   }
 
   if (DevOnly === true && message.author.id !== '229142187382669312') {
@@ -88,7 +111,7 @@ export = async (bot: any, message: Message) => {
       const MatchingPerms: any = permissions.find((SetUserPerm) => SetUserPerm === permission);
 
       if (!MatchingPerms) {
-        console.error(`[ERROR]: "${permission}" user permission does not exist in file ${commandfile.config.name}.`);
+        console.error(`[ERROR]: "${permission}" user permission does not exist in file ${name}.`);
       }
 
       if (!message.member!.hasPermission(MatchingPerms)) {
@@ -97,8 +120,8 @@ export = async (bot: any, message: Message) => {
     });
   }
 
-  if (UserPermissions === undefined && readdirSync('src/commands/moderation').indexOf(`${commandfile.config.name}.ts`) > -1) {
-    return console.error(`[ERROR]: UserPermissions config not found in command ${commandfile.config.name}.\nAdd the following to your config options... \nUserPermissions: ${permissions}`);
+  if (UserPermissions === undefined && readdirSync('dist/commands/moderation').indexOf(`${name}.js`) > -1) {
+    return console.error(`[ERROR]: UserPermissions config not found in command ${name}.\nAdd the following to your config options... \nUserPermissions: ${permissions}`);
   }
 
   if (UserPermissions) LoopThroughPermissions();
@@ -109,14 +132,14 @@ export = async (bot: any, message: Message) => {
 
   // --- BotPermissions Configuration ---
   if (BotPermissions === undefined) {
-    return console.error(`[ERROR]: BotPermissions config not found in command ${commandfile.config.name}.\nAdd the following to your config options... \nBotPermissions: ${permissions}`);
+    return console.error(`[ERROR]: BotPermissions config not found in command ${name}.\nAdd the following to your config options... \nBotPermissions: ${permissions}`);
   }
 
   BotPermissions.forEach((permission: string) => {
     const MatchingPerms: any = permissions.find((SetUserPerm) => SetUserPerm === permission);
 
     if (!MatchingPerms) {
-      console.error(`[ERROR]: "${permission}" bot permission does not exist in file ${commandfile.config.name}.`);
+      console.error(`[ERROR]: "${permission}" bot permission does not exist in file ${name}.`);
     }
 
     if (!message.guild!.me!.hasPermission(MatchingPerms)) {

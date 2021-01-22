@@ -11,6 +11,7 @@ export = {
     aliases: ['changeprefix', 'newprefix'],
     UserPermissions: ['MANAGE_GUILD'],
     BotPermissions: ['EMBED_LINKS'],
+    cooldown: 5,
   },
   run: async (_bot: Client, message: Message, args: string[]) => {
     const userPrefix = args.join(' ');
