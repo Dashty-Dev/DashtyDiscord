@@ -60,8 +60,8 @@ export = async (bot: any, message: Message) => {
     prefix = config.prefix;
   }
 
-  if (message.content.startsWith('<@') && message.mentions.has(bot.user!)) {
-    return message.channel.send(`Use ${prefix}help for a list of commands.`);
+  if (message.content.startsWith(`<@${bot.user.id}>`) || message.content.startsWith(`<@!${bot.user.id}>`)) {
+    prefix = `<@!${bot.user.id}>`;
   }
 
   const args: string[] = message.content.slice(prefix.length).trim().split(/ +/g);
@@ -79,30 +79,30 @@ export = async (bot: any, message: Message) => {
   // --- Cooldown Configuration ---
   let { Cooldown } = commandfile.config;
 
-  if (Number.isNaN(Number(Cooldown))) {
+  if (Cooldown && Number.isNaN(Number(Cooldown))) {
     return console.error(`[ERROR]: Cooldown config option provided is not a number in file ${name}.\nCooldown option content: "${Cooldown}"`);
   }
   if (!Cooldown) Cooldown = 5;
 
-  const time = Cooldown * 1000 + Date.now();
-
-  if (Cooldown) {
-    if (onCooldown.has(`${message.author.id}-${name}`)) {
-      return message.reply(`You must wait ${duration(Date.now() - time, { units: ['h', 'm', 's'], round: true })} before re-using the **${name}** command.`);
-    }
-    onCooldown.add(`${message.author.id}-${name}`);
-    setTimeout(() => {
-      onCooldown.delete(`${message.author.id}-${name}`);
-    }, Cooldown * 1000);
+  if (onCooldown.has(`${message.author.id}-${name}`)) {
+    return message.reply(`You are currently on a ${Cooldown} second cooldown. You'll be able to re-use the **${name}** command once the time is expired.`);
   }
+  onCooldown.add(`${message.author.id}-${name}`);
+  setTimeout(() => {
+    onCooldown.delete(`${message.author.id}-${name}`);
+  }, Cooldown * 1000);
 
   // --- DevOnly Configuration ---
-  if (DevOnly === undefined && readdirSync('dist/commands/owner').indexOf(`${name}.js`) > -1) {
+  if (!DevOnly && readdirSync('dist/commands/owner').indexOf(`${name}.js`) > -1) {
     return console.error(`[ERROR]: DevOnly config option not found in command ${name}.\nAdd the following to your config options... DevOnly: true/false`);
   }
 
   if (DevOnly === true && message.author.id !== '229142187382669312') {
     return message.channel.send('Developer only command.');
+  }
+
+  if (DevOnly && typeof DevOnly !== 'boolean') {
+    return console.error(`[ERROR]: DevOnly config option provided is not a boolean in file ${name}.\nDevOnly option content: "${DevOnly}".`);
   }
 
   // --- UserPermissions Configuration ---
@@ -111,7 +111,7 @@ export = async (bot: any, message: Message) => {
       const MatchingPerms: any = permissions.find((SetUserPerm) => SetUserPerm === permission);
 
       if (!MatchingPerms) {
-        console.error(`[ERROR]: "${permission}" user permission does not exist in file ${name}.`);
+        console.error(`[ERROR]: UserPermission config option provided is not a valid permission in file ${name}.\nUserPermission option content: "${permission}"`);
       }
 
       if (!message.member!.hasPermission(MatchingPerms)) {
@@ -120,7 +120,7 @@ export = async (bot: any, message: Message) => {
     });
   }
 
-  if (UserPermissions === undefined && readdirSync('dist/commands/moderation').indexOf(`${name}.js`) > -1) {
+  if (!UserPermissions && readdirSync('dist/commands/moderation').indexOf(`${name}.js`) > -1) {
     return console.error(`[ERROR]: UserPermissions config not found in command ${name}.\nAdd the following to your config options... \nUserPermissions: ${permissions}`);
   }
 
@@ -131,7 +131,7 @@ export = async (bot: any, message: Message) => {
   }
 
   // --- BotPermissions Configuration ---
-  if (BotPermissions === undefined) {
+  if (!BotPermissions) {
     return console.error(`[ERROR]: BotPermissions config not found in command ${name}.\nAdd the following to your config options... \nBotPermissions: ${permissions}`);
   }
 
@@ -139,7 +139,7 @@ export = async (bot: any, message: Message) => {
     const MatchingPerms: any = permissions.find((SetUserPerm) => SetUserPerm === permission);
 
     if (!MatchingPerms) {
-      console.error(`[ERROR]: "${permission}" bot permission does not exist in file ${name}.`);
+      console.error(`[ERROR]: BotPermission config option provided is not a valid permission in file ${name}.\nBotPermission option content: "${permission}"`);
     }
 
     if (!message.guild!.me!.hasPermission(MatchingPerms)) {
