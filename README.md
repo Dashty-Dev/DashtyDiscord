@@ -6,3 +6,4 @@ Dashty is a multipurpose bot built with love for communities and moderators. Aim
 
 ## License
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FDashty-Dev%2FDashtyDiscord.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FDashty-Dev%2FDashtyDiscord?ref=badge_large)
+
