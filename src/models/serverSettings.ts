@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { ServerSettingsTypes } from '../types/serverSettings';
+import { ServerSettingsTypes } from '../types/schemas';
 
 const settingsSchema: Schema = new Schema({
   guildName: { type: String },

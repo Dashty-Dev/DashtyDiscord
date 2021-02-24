@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { itemTypes } from '../types/item';
+import { itemTypes } from '../types/schemas';
 
 const itemSchema: Schema = new Schema({
   itemName: { type: String },

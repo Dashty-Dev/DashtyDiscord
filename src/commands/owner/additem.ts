@@ -1,6 +1,6 @@
 import { Client, Message, MessageEmbed } from 'discord.js';
 import item from '../../models/item';
-import colours from '../../json/colours.json';
+import { EMBED_COLOURS } from '../../utils/constants';
 
 export = {
   config: {
@@ -20,7 +20,7 @@ export = {
       .setTitle('Creation Cancelled!') //
       .setDescription(`Creation of item has been cancelled successfully!`)
       .setFooter(`Setup by ${message.author.tag}`, message.author.displayAvatarURL())
-      .setColor(colours.green)
+      .setColor(EMBED_COLOURS.green)
       .setThumbnail(bot.user!.displayAvatarURL());
 
     function cancel(msg: any) {
@@ -33,7 +33,7 @@ export = {
           .setTitle('Prompt [1/8]') //
           .setDescription(`Hello **${message.author.username}**,\n\nPlease follow the instructions provided to add a new item.\n\n❓ **What name would you like to give the item?**\n\nInput **cancel** to cancel your item creation.`)
           .setFooter(`Setup by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.blurple)
+          .setColor(EMBED_COLOURS.blurple)
           .setThumbnail(bot.user!.displayAvatarURL())
       );
 
@@ -47,7 +47,7 @@ export = {
           .setTitle('Prompt [2/8]') //
           .setDescription(`Hello **${message.author.username}**,\n\nPlease follow the instructions provided to add a new item.\n\n❓ **What if the price you would like to give for ${itemName}?**\n\nInput **cancel** to cancel your item creation.`)
           .setFooter(`Setup by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.blurple)
+          .setColor(EMBED_COLOURS.blurple)
           .setThumbnail(bot.user!.displayAvatarURL())
       );
 
@@ -64,7 +64,7 @@ export = {
           .setTitle('Prompt [3/8]') //
           .setDescription(`Hello **${message.author.username}**,\n\nPlease follow the instructions provided to add a new item.\n\n❓ **What description would you like to give ${itemName}?**\n\nInput **cancel** to cancel your item creation.`)
           .setFooter(`Setup by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.blurple)
+          .setColor(EMBED_COLOURS.blurple)
           .setThumbnail(bot.user!.displayAvatarURL())
       );
 
@@ -78,7 +78,7 @@ export = {
           .setTitle('Prompt [4/8]') //
           .setDescription(`Hello **${message.author.username}**,\n\nPlease follow the instructions provided to add a new item.\n\n❓ **What category would you like to give ${itemName}?**\n\nInput **cancel** to cancel your item creation.`)
           .setFooter(`Setup by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.blurple)
+          .setColor(EMBED_COLOURS.blurple)
           .setThumbnail(bot.user!.displayAvatarURL())
       );
 
@@ -92,7 +92,7 @@ export = {
           .setTitle('Prompt [5/8]') //
           .setDescription(`Hello **${message.author.username}**,\n\nPlease follow the instructions provided to add a new item.\n\n❓ **What emoji would you like to give ${itemName}?**\n\nInput **cancel** to cancel your item creation.`)
           .setFooter(`Setup by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.blurple)
+          .setColor(EMBED_COLOURS.blurple)
           .setThumbnail(bot.user!.displayAvatarURL())
       );
 
@@ -106,7 +106,7 @@ export = {
           .setTitle('Prompt [6/8]') //
           .setDescription(`Hello **${message.author.username}**,\n\nPlease follow the instructions provided to add a new item.\n\n❓ **What image would you like to give ${itemName}?**\n\nInput **cancel** to cancel your item creation.`)
           .setFooter(`Setup by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.blurple)
+          .setColor(EMBED_COLOURS.blurple)
           .setThumbnail(bot.user!.displayAvatarURL())
       );
 
@@ -120,7 +120,7 @@ export = {
           .setTitle('Prompt [7/8]') //
           .setDescription(`Hello **${message.author.username}**,\n\nPlease follow the instructions provided to add a new item.\n\n❓ **Would you like to show ${itemName} in the shop?**\n\nReact with 🇹 for true or 🇫 for false\n\nInput **cancel** to cancel your item creation.`)
           .setFooter(`Setup by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.blurple)
+          .setColor(EMBED_COLOURS.blurple)
           .setThumbnail(bot.user!.displayAvatarURL())
       );
 
@@ -139,7 +139,7 @@ export = {
           .setTitle('Prompt [8/8]') //
           .setDescription(`Hello **${message.author.username}**,\n\nPlease follow the instructions provided to add a new item.\n\n❓ **Would you like to make ${itemName} multipurchase??**\n\nReact with 🇹 for true or 🇫 for false\n\nInput **cancel** to cancel your item creation.`)
           .setFooter(`Setup by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.blurple)
+          .setColor(EMBED_COLOURS.blurple)
           .setThumbnail(bot.user!.displayAvatarURL())
       );
 
@@ -163,7 +163,7 @@ export = {
             `Please confirm this following prompt to add an item.\n\n❓ **Are the following fields correct for ${itemName}**?\n\n• \`Item Name\` - **${itemName}**\n• \`Item Price\` - **${itemPrice}**\n• \`Item Description\` - **${itemDescription}**\n• \`Item Category\` - **${itemCategory}**\n• \`Item Emoji\` - ${itemEmoji}\n• \`Item Image\` - **${itemImage}**\n• \`Item InShop\` - **${itemInshop}**\n• \`Item Multipurchase\` - **${itemMultipurchase}**\n\nIf the fields above look correct you can add this item by reacting with a ✅ or cancel the creation with ❌ if these fields don't look right.`
           )
           .setFooter(`Setup by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.red)
+          .setColor(EMBED_COLOURS.red)
       );
 
       confirmEmbed.react('✅');
@@ -188,7 +188,7 @@ export = {
         message.channel.send(
           new MessageEmbed()
             .setTitle('✅ Success!') //
-            .setColor(colours.green)
+            .setColor(EMBED_COLOURS.green)
             .setDescription(`${itemName} has been created!`)
             .setTimestamp()
         );

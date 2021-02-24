@@ -1,6 +1,6 @@
 import { Client, Message, MessageEmbed } from 'discord.js';
 import item from '../../models/item';
-import colours from '../../json/colours.json';
+import { EMBED_COLOURS } from '../../utils/constants';
 
 export = {
   config: {
@@ -18,7 +18,7 @@ export = {
         .setTitle('Inshop Cancelled!') //
         .setDescription(`Inshop of item has been cancelled successfully!`)
         .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL())
-        .setColor(colours.green)
+        .setColor(EMBED_COLOURS.green)
         .setThumbnail(bot.user!.displayAvatarURL());
 
       message.channel.send(
@@ -26,7 +26,7 @@ export = {
           .setTitle('Prompt [1/1]') //
           .setDescription(`Hello **${message.author.username}**,\n\nPlease follow the instructions provided to change whether an item is in the shop.\n\n❓ **What is the name of the item you would like to change?**\n\nInput **cancel** to cancel your item change.`)
           .setFooter(`Requested by ${message.author.tag} | Prompt will timeout in 2 mins`, message.author.displayAvatarURL())
-          .setColor(colours.blurple)
+          .setColor(EMBED_COLOURS.blurple)
           .setThumbnail(bot.user!.displayAvatarURL())
       );
 
@@ -47,7 +47,7 @@ export = {
             .setTitle('Are you sure?') //
             .setDescription(`Please confirm this final prompt to change an item.\n\n❓ **Are you sure you want to put the item ${itemName} in the shop**?\n\nDoing this will make the item purchasable for users who have the necessary currency.`)
             .setFooter(`Requested by ${message.author.tag} | Add reaction`, message.author.displayAvatarURL())
-            .setColor(colours.red)
+            .setColor(EMBED_COLOURS.red)
         );
         confirmation.react('✅');
         confirmation.react('❌');
@@ -61,7 +61,7 @@ export = {
           return message.channel.send(
             new MessageEmbed()
               .setTitle('✅ Success!') //
-              .setColor(colours.green)
+              .setColor(EMBED_COLOURS.green)
               .setDescription(`${itemName} is now in the shop!`)
               .setTimestamp()
           );
@@ -75,7 +75,7 @@ export = {
             .setTitle('Are you sure?') //
             .setDescription(`Please confirm this final prompt to change an item.\n\n❓ **Are you sure you want to remove the item ${itemName} from the shop**?\n\nDoing this will make the item un-purchasable for users who have the necessary currency, taking the item offsale.`)
             .setFooter(`Requested by ${message.author.tag} | Add reaction`, message.author.displayAvatarURL())
-            .setColor(colours.red)
+            .setColor(EMBED_COLOURS.red)
         );
         confirmation.react('✅');
         confirmation.react('❌');
@@ -89,7 +89,7 @@ export = {
           return message.channel.send(
             new MessageEmbed()
               .setTitle('✅ Success!') //
-              .setColor(colours.green)
+              .setColor(EMBED_COLOURS.green)
               .setDescription(`${itemName} has now been removed from the shop!`)
               .setTimestamp()
           );

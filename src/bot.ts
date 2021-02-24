@@ -1,6 +1,5 @@
 import { Client, Collection } from 'discord.js';
 import { config } from 'dotenv';
-import botConfig from './json/botConfig.json';
 
 config();
 
@@ -17,5 +16,4 @@ bot.aliases = new Collection();
 });
 ['loadCommands', 'loadEvents'].forEach((handlerFile: string): string => require(`./handlers/${handlerFile}.js`)(bot));
 
-const token = botConfig.test === 'true' ? process.env.DISCORD_TESTTOKEN : process.env.DISCORD_TOKEN;
-bot.login(token);
+bot.login(process.env.TEST === 'true' ? process.env.DISCORD_TESTTOKEN : process.env.DISCORD_TOKEN);

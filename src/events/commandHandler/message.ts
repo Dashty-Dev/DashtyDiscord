@@ -1,48 +1,14 @@
 import { Message, MessageEmbed } from 'discord.js';
 import { readdirSync } from 'fs';
 import duration from 'humanize-duration';
-import colours from '../../json/colours.json';
+import { EMBED_COLOURS, DISCORD_PERMISSIONS } from '../../utils/constants';
 import serverSettings from '../../models/serverSettings';
-import botConfig from '../../json/botConfig.json';
 
 const onCooldown = new Set();
 
 export = async (bot: any, message: Message) => {
   if (message.author.bot) return;
   if (message.channel.type === 'dm') return;
-
-  const permissions = [
-    'ADMINISTRATOR', // prettier-ignore
-    'CREATE_INSTANT_INVITE',
-    'KICK_MEMBERS',
-    'BAN_MEMBERS',
-    'MANAGE_CHANNELS',
-    'MANAGE_GUILD',
-    'ADD_REACTIONS',
-    'VIEW_AUDIT_LOG',
-    'PRIORITY_SPEAKER',
-    'STREAM',
-    'VIEW_CHANNEL',
-    'SEND_MESSAGES',
-    'SEND_TTS_MESSAGES',
-    'MANAGE_MESSAGES',
-    'EMBED_LINKS',
-    'ATTACH_FILES',
-    'READ_MESSAGE_HISTORY',
-    'MENTION_EVERYONE',
-    'USE_EXTERNAL_EMOJIS',
-    'VIEW_GUILD_INSIGHTS:',
-    'CONNECT',
-    'SPEAK',
-    'MUTE_MEMBERS',
-    'DEAFEN_MEMBERS',
-    'MOVE_MEMBERS',
-    'CHANGE_NICKNAME',
-    'MANAGE_NICKNAMES',
-    'MANAGE_ROLES',
-    'MANAGE_WEBHOOKS',
-    'MANAGE_EMOJIS',
-  ];
 
   let NeededPermissions: string = '';
   let NeededBotPermissions: string = '';
@@ -55,7 +21,7 @@ export = async (bot: any, message: Message) => {
   });
 
   if (!config) {
-    prefix = botConfig.prefix;
+    prefix = String(process.env.PREFIX);
   } else {
     prefix = config.prefix;
   }
@@ -108,7 +74,7 @@ export = async (bot: any, message: Message) => {
   // --- UserPermissions Configuration ---
   function LoopThroughPermissions() {
     UserPermissions.forEach((permission: string) => {
-      const MatchingPerms: any = permissions.find((SetUserPerm) => SetUserPerm === permission);
+      const MatchingPerms: any = DISCORD_PERMISSIONS.find((SetUserPerm) => SetUserPerm === permission);
 
       if (!MatchingPerms) {
         console.error(`[ERROR]: UserPermission config option provided is not a valid permission in file ${name}.\nUserPermission option content: "${permission}"`);
@@ -121,7 +87,7 @@ export = async (bot: any, message: Message) => {
   }
 
   if (!UserPermissions && readdirSync('dist/commands/moderation').indexOf(`${name}.js`) > -1) {
-    return console.error(`[ERROR]: UserPermissions config not found in command ${name}.\nAdd the following to your config options... \nUserPermissions: ${permissions}`);
+    return console.error(`[ERROR]: UserPermissions config not found in command ${name}.\nAdd the following to your config options... \nUserPermissions: ${DISCORD_PERMISSIONS}`);
   }
 
   if (UserPermissions) LoopThroughPermissions();
@@ -132,11 +98,11 @@ export = async (bot: any, message: Message) => {
 
   // --- BotPermissions Configuration ---
   if (!BotPermissions) {
-    return console.error(`[ERROR]: BotPermissions config not found in command ${name}.\nAdd the following to your config options... \nBotPermissions: ${permissions}`);
+    return console.error(`[ERROR]: BotPermissions config not found in command ${name}.\nAdd the following to your config options... \nBotPermissions: ${DISCORD_PERMISSIONS}`);
   }
 
   BotPermissions.forEach((permission: string) => {
-    const MatchingPerms: any = permissions.find((SetUserPerm) => SetUserPerm === permission);
+    const MatchingPerms: any = DISCORD_PERMISSIONS.find((SetUserPerm) => SetUserPerm === permission);
 
     if (!MatchingPerms) {
       console.error(`[ERROR]: BotPermission config option provided is not a valid permission in file ${name}.\nBotPermission option content: "${permission}"`);
@@ -161,7 +127,7 @@ export = async (bot: any, message: Message) => {
         .setTitle('❌ Something went wrong!') // prettier-ignore
         .setDescription(`Uh oh! Looks like Dashoo has hit some of the wrong buttons, causing an error. You can try... \n\n• Reporting the bug over to our developers with \`${prefix}bugreport\`\n• Coming back later and trying again\n• Checking out Dashty's social medias whilst you wait 😏`)
         .setThumbnail('https://i.ibb.co/G2HNbNQ/Error-Image.png')
-        .setColor(colours.red)
+        .setColor(EMBED_COLOURS.red)
     );
   }
 };

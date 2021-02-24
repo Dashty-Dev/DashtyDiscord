@@ -1,6 +1,6 @@
 import { Client, Message, MessageEmbed } from 'discord.js';
 import serverSettings from '../../models/serverSettings';
-import colours from '../../json/colours.json';
+import { EMBED_COLOURS } from '../../utils/constants';
 
 export = {
   config: {
@@ -11,7 +11,6 @@ export = {
     aliases: ['changeprefix', 'newprefix'],
     UserPermissions: ['MANAGE_GUILD'],
     BotPermissions: ['EMBED_LINKS'],
-    cooldown: 5,
   },
   run: async (_bot: Client, message: Message, args: string[]) => {
     const userPrefix = args.join(' ');
@@ -21,7 +20,7 @@ export = {
         new MessageEmbed() //
           .setTitle('<:DashtyError:781911625183658014> No prefix!')
           .setDescription("That doesn't seem quite right! Please make sure you **input a prefix** as displayed below.")
-          .setColor(colours.red)
+          .setColor(EMBED_COLOURS.red)
           .setImage('https://s8.gifyu.com/images/Prefix.gif')
           .setFooter('Input a prefix')
           .setTimestamp()
@@ -33,7 +32,7 @@ export = {
         new MessageEmbed() //
           .setTitle('<:DashtyError:781911625183658014> Too many letters!')
           .setDescription("That doesn't seem quite right! Please make sure you input a prefix that contains **10 or less characters** as displayed below.")
-          .setColor(colours.red)
+          .setColor(EMBED_COLOURS.red)
           .setImage('https://s8.gifyu.com/images/Prefix.gif')
           .setFooter('Too many characters')
           .setTimestamp()
@@ -50,7 +49,7 @@ export = {
           new MessageEmbed() //
             .setTitle('<:DashtyError:781911625183658014> Already Prefix!')
             .setDescription("That doesn't seem quite right! Please make sure you input a prefix that **isn't the current prefix set in this server**, as displayed below.")
-            .setColor(colours.red)
+            .setColor(EMBED_COLOURS.red)
             .setImage('https://s8.gifyu.com/images/Prefix.gif')
             .setFooter('Same prefix')
             .setTimestamp()
@@ -67,7 +66,7 @@ export = {
       return message.channel.send(
         new MessageEmbed() //
           .setTitle('✅ Success!')
-          .setColor(colours.green)
+          .setColor(EMBED_COLOURS.green)
           .setDescription(`Prefix has successfully been changed to \`${userPrefix}\``)
           .setTimestamp()
       );
@@ -78,7 +77,7 @@ export = {
         new MessageEmbed() //
           .setTitle('<:DashtyError:781911625183658014> Already Prefix!')
           .setDescription("That doesn't seem quite right! Please make sure you input a prefix that **isn't the current prefix set in this server**, as displayed below.")
-          .setColor(colours.red)
+          .setColor(EMBED_COLOURS.red)
           .setImage('https://s8.gifyu.com/images/Prefix.gif')
           .setFooter('Same prefix')
           .setTimestamp()
@@ -92,7 +91,7 @@ export = {
     return message.channel.send(
       new MessageEmbed() //
         .setTitle('✅ Success!')
-        .setColor(colours.green)
+        .setColor(EMBED_COLOURS.green)
         .setDescription(`Prefix has successfully been changed to \`${userPrefix}\``)
         .setTimestamp()
     );
