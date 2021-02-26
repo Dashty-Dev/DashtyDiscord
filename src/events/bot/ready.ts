@@ -4,7 +4,7 @@ import mongoDatabase from '../database/connectDatabase';
 export = async (bot: Client) => {
   console.log(`\n${bot.user!.username} has loaded successfully and is online. \nServers: ${bot.guilds.cache.size}   Users: ${bot.users.cache.size}   Channels: ${bot.channels.cache.size}`);
 
-  const statuses: Array<string> = [`🎮 dashty.xyz | .help`, `🥪 Dashoo's picnic`, `✨ @DashtyDev`];
+  const statuses: Array<string> = [`🎮 dashty.xyz | -help`, `🥪 Dashoo's picnic`, `✨ @DashtyDev`];
 
   setInterval((): void => {
     bot.user!.setActivity(statuses[Math.floor(Math.random() * statuses.length)], { type: 'STREAMING', url: 'https://www.twitch.tv/dashtydev' });
