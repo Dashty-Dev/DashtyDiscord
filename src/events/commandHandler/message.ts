@@ -1,6 +1,5 @@
 import { Message, MessageEmbed } from 'discord.js';
 import { readdirSync } from 'fs';
-import duration from 'humanize-duration';
 import { EMBED_COLOURS, DISCORD_PERMISSIONS } from '../../utils/constants';
 import serverSettings from '../../models/serverSettings';
 
@@ -40,7 +39,7 @@ export = async (bot: any, message: Message) => {
     return message.channel.send(`Command does not exist, use ${prefix}help for a full list of commands.`);
   }
 
-  const { DevOnly, UserPermissions, BotPermissions, name } = commandfile.config;
+  const { DevOnly, UserPermissions, BotPermissions, name, usage } = commandfile.config;
 
   // --- Cooldown Configuration ---
   let { Cooldown } = commandfile.config;
@@ -115,6 +114,32 @@ export = async (bot: any, message: Message) => {
 
   if (NeededBotPermissions) {
     return message.channel.send(`Dashty needs the following permissions to carry out this command...\n${NeededBotPermissions}`);
+  }
+
+  // --- Command Usage ---
+  if (usage) {
+    const cmdUsage = usage.split(/[ ]+/);
+    const usageObj: any = {};
+
+    cmdUsage.forEach((argument: string) => {
+      if (argument.startsWith('<') && argument.endsWith('>')) usageObj[argument] = true;
+      else if (argument.startsWith('[') && argument.endsWith(']')) usageObj[argument] = false;
+      else console.error(`[ERROR]: usage config argument is neither required <> or optional []\nUsage argument content: "${argument}"`);
+    });
+
+    if (args.length < cmdUsage.length) {
+      if (Object.values(usageObj)[args.length] === true) {
+        //  return message.channel.send(`\`\`\`${prefix}${name} ${usage}\n${Object.keys(usageObj)[args.length]} is a required argument that is missing.\`\`\``);
+
+        return message.channel.send(
+          new MessageEmbed() //
+            .setTitle('📋 Incorrect Usage')
+            .setDescription(`\`\`\`${prefix}${name} ${usage}\n\n${Object.keys(usageObj)[args.length]} is a required argument that is missing.\`\`\``)
+            .setColor(EMBED_COLOURS.red)
+            .setFooter('<> - Required ● Optional - []')
+        );
+      }
+    }
   }
 
   // --- Run Command + Send Message If Error Occurs ---
