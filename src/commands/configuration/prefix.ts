@@ -6,7 +6,7 @@ export = {
   config: {
     name: 'prefix',
     description: 'Change the bots prefix to something custom.',
-    usage: '.prefix <prefix>',
+    usage: '<new_prefix>',
     accessableby: 'MANAGE_MESSAGES',
     aliases: ['changeprefix', 'newprefix'],
     UserPermissions: ['MANAGE_GUILD'],
@@ -14,18 +14,6 @@ export = {
   },
   run: async (_bot: Client, message: Message, args: string[]) => {
     const userPrefix = args.join(' ');
-
-    if (userPrefix.length < 1) {
-      return message.channel.send(
-        new MessageEmbed() //
-          .setTitle('<:DashtyError:781911625183658014> No prefix!')
-          .setDescription("That doesn't seem quite right! Please make sure you **input a prefix** as displayed below.")
-          .setColor(EMBED_COLOURS.red)
-          .setImage('https://s8.gifyu.com/images/Prefix.gif')
-          .setFooter('Input a prefix')
-          .setTimestamp()
-      );
-    }
 
     if (userPrefix.length > 10) {
       return message.channel.send(
