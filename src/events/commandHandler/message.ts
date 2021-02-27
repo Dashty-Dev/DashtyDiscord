@@ -25,6 +25,10 @@ export = async (bot: any, message: Message) => {
     prefix = config.prefix;
   }
 
+  if (message.content === `<@${bot.user.id}>` || message.content === `<@!${bot.user.id}>`) {
+    return message.channel.send(`My prefix is ${prefix}`);
+  }
+
   if (message.content.startsWith(`<@${bot.user.id}>`) || message.content.startsWith(`<@!${bot.user.id}>`)) {
     prefix = `<@!${bot.user.id}>`;
   }
@@ -129,12 +133,11 @@ export = async (bot: any, message: Message) => {
 
     if (args.length < cmdUsage.length) {
       if (Object.values(usageObj)[args.length] === true) {
-        //  return message.channel.send(`\`\`\`${prefix}${name} ${usage}\n${Object.keys(usageObj)[args.length]} is a required argument that is missing.\`\`\``);
-
+        if (prefix === `<@!${bot.user.id}>`) prefix = '@Dashty ';
         return message.channel.send(
           new MessageEmbed() //
-            .setTitle('📋 Incorrect Usage')
-            .setDescription(`\`\`\`${prefix}${name} ${usage}\n\n${Object.keys(usageObj)[args.length]} is a required argument that is missing.\`\`\``)
+            .setTitle('📋 Incorrect Usage!')
+            .setDescription(`Improper usage for the **${name}** command, please refer below.\n\n\`\`\`Usage: ${prefix}${name} ${usage}\n\n${Object.keys(usageObj)[args.length]} is required for the command to run.\`\`\``)
             .setColor(EMBED_COLOURS.red)
             .setFooter('<> - Required ● Optional - []')
         );
